@@ -2,7 +2,7 @@ Renaissance Zones, Economic Variables, and Property Crime in the Counties of Mic
 
 Abstract: This paper attempts to determine if a relationship be drawn between tax incentive programs and the changes in employment and income in Michigan counties and also between employment and income and property crime in Michigan counties. Drawing on a variety of research and data sources, the paper finds neither a link between these tax incentive programs and employment and income nor between employment and income and property crime rates.
 
-Citation: M. Holmquist. (2017). Renaissance Zones, Economic Variables, and Property Crime in the Counties of Michigan. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/Renaissance%20Zones%2C%20Economic%20Variables%2C%20and%20Property%20Crime%20in%20the%20Counties%20of%20Michigan
+Citation: Holmquist, M. (2017). Renaissance Zones, Economic Variables, and Property Crime in the Counties of Michigan. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/Renaissance%20Zones%2C%20Economic%20Variables%2C%20and%20Property%20Crime%20in%20the%20Counties%20of%20Michigan
 
 Techniques Used: Data Analysis, Linear Regression
 
