@@ -1,0 +1,10 @@
+Win-Loss Percentage in the NFL: Understanding Variables Within the NFL 
+
+Abstract: To achieve success, National Football League (NFL) teams seek advantages by using statistical analysis to understand what factors are correlated with a greater number of victories.
+This project delves deeper into identifying key statistical variables that significantly influence an NFL team's win/loss ratio. This study employs multiple regression techniques to develop predictive models between offensive statistics and an increased win percentage.
+
+Citation: Thomas, M; Holmquist, M; Tyler, B. (2024). Win-Loss Percentage in the NFL: Understanding Variables Within the NFL. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/Win-Loss%20Percentage%20in%20the%20NFL%20Understanding%20Variables%20Within%20the%20NFL
+
+Techniques Used: Data Analysis, Linear Regression, Stepwise Regression
+
+Tools Used: Microsoft Excel, Microsoft PowerPoint, R
