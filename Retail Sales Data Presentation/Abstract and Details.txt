@@ -1,0 +1,9 @@
+Retail Sales Data Presentation
+
+Abstract: This presentation looks at online sales data and draws conclusions on what the data can and cannot reveal.
+
+Citation: Holmquist, M. (2025). Retail Sales Data Presentation. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/Retail%20Sales%20Data%20Presentation
+
+Techniques Used: Data Analysis, Clustering
+
+Tools Used: Microsoft Excel, Microsoft PowerPoint, R
