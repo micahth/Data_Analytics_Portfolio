@@ -1,0 +1,9 @@
+FedFlix Interim Report Analysis: Evaluating Claims About Federal Government Media Activity
+
+Abstract: This project examines the FedFlix Interim Report (January 27, 2025) published by ItsYourGov.org, which documents the organization's ongoing tracking of federal government video and streaming media production. The analysis applies a data-driven framework to evaluate whether the report's findings represent evidence-backed concerns or unsubstantiated alarmism. Key dimensions examined include historical trends in federal media spending, the scope of government video production relative to agency budgets, and how the figures cited compare to established government transparency benchmarks. The analysis finds that, while some of the report's observations about the scale and opacity of federal media operations are grounded in documented data, several interpretive leaps in the report lack sufficient supporting evidence, suggesting a degree of confirmation bias in how the findings are presented. A measured, data-centered reading supports caution rather than alarm.
+
+Citation: Holmquist, M. (2025). FedFlix Interim Report Analysis: Evaluating Claims About Federal Government Media Activity. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/FedFlix%20Interim%20Report%20Analysis
+
+Techniques Used: Data Analysis, Descriptive Statistics, Trend Analysis, Critical Evaluation of Secondary Sources
+
+Tools Used: R, Microsoft Excel
