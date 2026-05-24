@@ -1,0 +1,9 @@
+Authorized Push Payment Fraud and Data Analytics
+
+Abstract: This paper looks at how data analytics can be used to identify likely cases of authorized push payment (APP) fraud, or cases of fraud where the victims are tricked into initiating a financial transaction. My research explored whether machine learning can help financial institutions catch these scams before they actually happen. I tested three models (decision trees, random forests, and K-Nearest Neighbors) on a dataset of 40,000 synthetic transactions. A random forest model was found to achieve the strongest performance,  with 80.9% accuracy. Customer-level variables such as housing status, income, and credit risk scores provided to be the most influential predictors. The paper additionally looks at the practical challenges of deploying these models while keeping the customer experience front and center.
+
+Citation: Holmquist, M. (2026). Authorized Push Payment Fraud and Data Analytics. GitHub. https://github.com/micahth/Data_Analytics_Portfolio/tree/main/Authorized%20Push%20Payment%20Fraud%20and%20Data%20Analytics
+
+Techniques Used: Data Analysis, Decision Trees, Random Forests, K-Nearest Neighbors
+
+Tools Used: Microsoft Excel, Microsoft PowerPoint, Microsoft Word, R.
