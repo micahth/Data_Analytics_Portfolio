@@ -1,9 +1,9 @@
 #Clear workspace
 rm(list = ls())
 
-# -----------------------------
-# Install packages (FIXED)
-# -----------------------------
+
+# Install packages 
+
 pkgs <- c(
   "readxl","dplyr","caret","ggplot2",
   "rpart","rpart.plot","pROC","ISLR",
@@ -13,9 +13,9 @@ pkgs <- c(
 to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
 if(length(to_install)) install.packages(to_install)
 
-# -----------------------------
-# Load libraries (FIXED)
-# -----------------------------
+
+# Load libraries 
+
 library(readxl)
 library(dplyr)
 library(caret)
@@ -30,9 +30,9 @@ library(e1071)
 library(tidyr)
 library(scales)
 
-# -----------------------------
+
 # Load Excel file
-# -----------------------------
+
 data <- read_excel("C:\\Users\\micah\\OneDrive\\Classes\\NMU\\Spring 2026\\BUS 598 Directed Study Business Analytics Project\\dataset\\data with eliminated variables for working with.xlsx")
 
 # Convert negative session_length_in_minutes to NA (MISSING)
@@ -46,9 +46,9 @@ head(data)
 anyNA(data)
 colSums(is.na(data))
 
-# -----------------------------
-# fraud_bool cleaning (keep your logic)
-# -----------------------------
+
+# fraud_bool cleaning 
+
 str(data$fraud_bool)
 unique(data$fraud_bool)
 table(data$fraud_bool, useNA = "ifany")
@@ -85,9 +85,9 @@ ggplot(df_plot, aes(x = fraud_label)) +
   labs(x = NULL, y = "Count") +
   theme_minimal()
 
-# -----------------------------
+
 # customer_age chart
-# -----------------------------
+
 df_plot <- transform(
   data,
   customer_age_decade = factor(
@@ -128,9 +128,8 @@ boxplot(log1p(data$days_since_request),
         xlab = "log1p(days_since_request)",
         main = "Days Since Request (horizontal boxplot of log1p values)")
 
-# -----------------------------
-# Use dynamic n_total everywhere (FIXED)
-# -----------------------------
+
+# Use dynamic n_total everywhere 
 n_total <- nrow(data)
 
 # payment_type bar chart
@@ -231,7 +230,7 @@ x <- data$session_length_in_minutes
 sum(x < 0, na.rm = TRUE)
 summary(x)
 
-# Descriptive statistics for session_length_in_minutes (already cleaned)
+# Descriptive statistics for session_length_in_minutes 
 x <- data$session_length_in_minutes
 n <- sum(!is.na(x))
 mean_x <- mean(x, na.rm = TRUE)
@@ -286,9 +285,8 @@ p <- ggplot(dfm, aes(x = month, y = count)) +
   theme_minimal()
 p
 
-# -----------------------------
-# Convert fraud_bool to 2-level factor (keep your mapping)
-# -----------------------------
+
+# Convert fraud_bool to 2-level factor 
 data$fraud_bool <- as.integer(as.character(data$fraud_bool))
 table(data$fraud_bool, useNA = "ifany")
 
@@ -301,9 +299,9 @@ data$fraud_bool <- factor(
 levels(data$fraud_bool)
 table(data$fraud_bool, useNA = "ifany")
 
-# -----------------------------
+
 # Train/Val/Test split
-# -----------------------------
+
 set.seed(123)
 
 train_index <- createDataPartition(data$fraud_bool, p = 0.8, list = FALSE)
@@ -356,9 +354,9 @@ print(create_pie_chart(train_data, "Training"))
 print(create_pie_chart(val_data, "Validation"))
 print(create_pie_chart(test_data, "Testing"))
 
-# ============================================================
+
 # DECISION TREE
-# ============================================================
+
 ctrl <- trainControl(
   method = "cv",
   number = 5,
@@ -428,7 +426,7 @@ val_roc_tree <- pROC::roc(
 val_auc_tree <- as.numeric(pROC::auc(val_roc_tree))
 cat("\nDecision Tree validation AUC:", round(val_auc_tree, 4), "\n")
 
-# ---- OPTION 2: Choose threshold using Youden on validation ROC (FIXED) ----
+# Choose threshold using Youden on validation ROC 
 # coords() returns a data.frame (or matrix) when transpose=FALSE, so use [[ ]] to extract scalars.
 best_tree <- pROC::coords(
   val_roc_tree,
@@ -440,15 +438,15 @@ best_tree <- pROC::coords(
 thr_tree <- as.numeric(best_tree[["threshold"]])
 cat("Decision Tree threshold selected from validation (Youden):", thr_tree, "\n")
 
-# Validation confusion matrix at chosen threshold (consistent with selection)
+# Validation confusion matrix at chosen threshold 
 val_pred_tree <- factor(ifelse(val_prob_tree >= thr_tree, "potential_fraud", "good"),
                         levels = c("potential_fraud", "good"))
 cm_tree_val <- confusionMatrix(val_pred_tree, val_data$fraud_bool, positive = "potential_fraud")
 print(cm_tree_val)
 
-# ============================================================
+
 # RANDOM FOREST
-# ============================================================
+
 ntree_grid <- c(500, 600, 700, 800, 900, 1000)
 
 rf_models  <- vector("list", length(ntree_grid))
@@ -535,9 +533,9 @@ best_rf_name <- paste0("ntree_", rf_results$ntree[best_rf_idx])
 best_rf <- rf_models[[best_rf_name]]
 cat("\nBest RF by validation AUC:", best_rf_name, "\n")
 
-# ============================================================
+
 # K-NEAREST NEIGHBORS (KNN)
-# ============================================================
+
 train_knn <- train_data
 val_knn   <- val_data
 test_knn  <- test_data
@@ -595,9 +593,9 @@ cat("Best k by validation Accuracy:", best_k_acc, "\n")
 
 best_k <- best_k_auc
 
-# ============================================================
+
 # FINAL TEST SET COMPARISON (Tree vs RF vs KNN)
-# ============================================================
+
 eval_binary_model <- function(truth, prob_pf, pred_label, model_name) {
   truth <- factor(truth, levels = c("potential_fraud","good"))
   pred_label <- factor(pred_label, levels = c("potential_fraud","good"))
@@ -629,7 +627,7 @@ eval_binary_model <- function(truth, prob_pf, pred_label, model_name) {
   )
 }
 
-# 1) Tree on TEST (use thr_tree from validation Youden)
+# 1) Tree on TEST 
 test_prob_tree <- predict(fit_rpart, newdata = test_data, type = "prob")[, "potential_fraud"]
 test_pred_tree <- ifelse(test_prob_tree >= thr_tree, "potential_fraud", "good")
 
@@ -675,5 +673,4 @@ summary_test_print <- summary_test %>%
 cat("\n================ FINAL TEST SET SUMMARY (Tree vs RF vs KNN) ================\n")
 print(summary_test_print, row.names = FALSE)
 
-# Optional: save
 # write.csv(summary_test_print, "model_summary_test_set.csv", row.names = FALSE)
