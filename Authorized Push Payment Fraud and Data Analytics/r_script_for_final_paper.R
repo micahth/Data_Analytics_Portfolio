@@ -2,16 +2,10 @@
 rm(list = ls())
 
 
-# Install packages 
-
-pkgs <- c(
-  "readxl","dplyr","caret","ggplot2",
-  "rpart","rpart.plot","pROC","ISLR",
-  "randomForest","class","e1071",
-  "tidyr","scales"
-)
-to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
-if(length(to_install)) install.packages(to_install)
+# Packages: install beforehand (see ../README.md), e.g.
+# install.packages(c("readxl","dplyr","caret","ggplot2","rpart","rpart.plot",
+#   "pROC","ISLR","randomForest","class","e1071","tidyr","scales"))
+# Run from this folder (setwd to it).
 
 
 # Load libraries 
@@ -33,7 +27,9 @@ library(scales)
 
 # Load Excel file
 
-data <- read_excel("C:\\Users\\micah\\OneDrive\\Classes\\NMU\\Spring 2026\\BUS 598 Directed Study Business Analytics Project\\dataset\\data with eliminated variables for working with.xlsx")
+data <- read_excel("data with eliminated variables for working with.xlsx")
+
+dir.create("outputs", showWarnings = FALSE)
 
 # Convert negative session_length_in_minutes to NA (MISSING)
 data <- data %>%
@@ -673,4 +669,15 @@ summary_test_print <- summary_test %>%
 cat("\n================ FINAL TEST SET SUMMARY (Tree vs RF vs KNN) ================\n")
 print(summary_test_print, row.names = FALSE)
 
-# write.csv(summary_test_print, "model_summary_test_set.csv", row.names = FALSE)
+summary_test_print$base_rate_test <- round(mean(test_data$fraud_bool == "potential_fraud"), 4)
+write.csv(summary_test_print, file.path("outputs", "model_summary_test_set.csv"), row.names = FALSE)
+
+# Random forest variable importance (best model by validation AUC)
+rf_imp <- as.data.frame(randomForest::importance(best_rf))
+rf_imp$variable <- rownames(rf_imp)
+write.csv(rf_imp[order(-rf_imp$MeanDecreaseGini), ],
+          file.path("outputs", "rf_variable_importance.csv"), row.names = FALSE)
+
+# Caveats: random (not time-based) split; features are contemporaneous with the label;
+# the three models use different predictor sets and thresholds, so the comparison is
+# not strictly like-for-like. No leakage audit was done.

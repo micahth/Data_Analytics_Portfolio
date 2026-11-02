@@ -1,8 +1,16 @@
 #
 rm(list = ls())
 
-install.packages("readr")
-library("readr")
+# Run from this folder (setwd to it, or open the folder as the RStudio project).
+# Requires: readxl (and caret for the MLR script). See ../README.md.
+library(readxl)
+
+nfl_R <- as.data.frame(read_excel("modified_nfl_team_stats_2003_2023.xlsx"))
+
+# Fix misspelled column names in the source workbook so the models below match.
+names(nfl_R)[names(nfl_R) == "points_opp_pe_rgame"] <- "points_opp_per_game"
+names(nfl_R)[names(nfl_R) == "turnsover_per_game"]  <- "turnovers_per_game"
+names(nfl_R)[names(nfl_R) == "peanalties_per_game"] <- "penalties_per_game"
 
 
 str(nfl_R)
