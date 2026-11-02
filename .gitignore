@@ -1,0 +1,9 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Rapp.history
+.Ruserdata
+renv/library/
+outputs/
+~$*
+*.Rcheck/

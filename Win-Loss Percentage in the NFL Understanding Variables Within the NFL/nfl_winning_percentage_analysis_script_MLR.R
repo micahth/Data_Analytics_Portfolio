@@ -1,26 +1,24 @@
 #rm(list = ls())
 
-install.packages("readr")
-library("readr")
+# Run from this folder (setwd to it, or open the folder as the RStudio project).
+# Requires: readxl (and caret for the MLR script). See ../README.md.
+library(readxl)
 
-dim(nfl_R)
-  
-str(nfl_R)
-#split into training and verification data
+nfl_R <- as.data.frame(read_excel("modified_nfl_team_stats_2003_2023.xlsx"))
 
-install.packages("caret")
-library(caret)
-set.seed(123)
+# Fix misspelled column names in the source workbook so the models below match.
+names(nfl_R)[names(nfl_R) == "points_opp_pe_rgame"] <- "points_opp_per_game"
+names(nfl_R)[names(nfl_R) == "turnsover_per_game"]  <- "turnovers_per_game"
+names(nfl_R)[names(nfl_R) == "peanalties_per_game"] <- "penalties_per_game"
 
-trainIndex <- createDataPartition(nfl_R$win_loss_perc, p = 0.8, 
-                                  list = FALSE, 
-                                  times = 1)
-training_data <- nfl_R[trainIndex, ]
-testing_data <- nfl_R[-trainIndex, ]
+# Year-based holdout: train on seasons 2003-2018, test on 2019-2023.
+# A random split would mix seasons of the same team across train and test.
+train_years <- 2003:2018
+training_data <- nfl_R[nfl_R$year %in% train_years, ]
+testing_data  <- nfl_R[!(nfl_R$year %in% train_years), ]
+cat("Training rows:", nrow(training_data), " Testing rows:", nrow(testing_data), "\n")
 summary(training_data)
-print(training_data)
 summary(testing_data)
-print(testing_data)
 
 
 #regression on training data
@@ -65,7 +63,9 @@ print(mad_score)
 
 
 
-#model_no_points
+# model_no_points: drops points_scored/points_opp, which are season aggregates of the
+# same games that determine win_loss_perc (near-tautological). Prefer this model for
+# any substantive finding; the full model is shown for comparison only.
 model_no_points <- lm(win_loss_perc ~ total_yards_per_game + 
                plays_offense_per_game + yds_per_play_offense + turnovers_per_game + 
                fumbles_lost_per_game + first_downs_per_game + pass_cmp_per_game + 
@@ -82,7 +82,7 @@ summary(model_no_points)
 coefficients_no_points <- coef(model_no_points)
 
 
-equation_no_points <- paste("win_loss_perc =", paste0(coefficients_no_points[-1], "* ", names(coefficients_no_points)[-1], collapse = " + "), "+", coefficients[1])
+equation_no_points <- paste("win_loss_perc =", paste0(coefficients_no_points[-1], "* ", names(coefficients_no_points)[-1], collapse = " + "), "+", coefficients_no_points[1])
 
 
 print(equation_no_points)
@@ -137,7 +137,7 @@ forward_rmse <- sqrt(forward_mse)
 
 # Print the results
 cat("Backward Stepwise Regression:\n")
-cat("Bakward MAD:", backward_mad, "\n")
+cat("Backward MAD:", backward_mad, "\n")
 cat("Backward MSE:", backward_mse, "\n")
 cat("Backward RMSE:", backward_rmse, "\n\n")
 
@@ -175,7 +175,7 @@ forward_mad_no_points <- mean(abs(forward_predictions_no_points - testing_data$w
 
 # Print
 
-cat("Badkward No Points MAD:", backward_mad_no_points, "\n")
+cat("Backward No Points MAD:", backward_mad_no_points, "\n")
 
 
 
