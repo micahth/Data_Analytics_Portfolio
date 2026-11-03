@@ -10,7 +10,7 @@
 
 ## Method notes
 
-- Cancellations/returns (negative `Quantity`, or invoice numbers starting with `C`) and rows with `UnitPrice <= 0` are excluded from sales figures and summarised separately.
+- Cancellations/returns (negative `Quantity`, or invoice numbers starting with `C`) and rows with `UnitPrice <= 0` are excluded from sales figures. Returns are summarised in a table; `UnitPrice <= 0` rows are only counted in the console log.
 - "Average invoice total" is computed per invoice, not per line item.
 - Clustering is exploratory: k-means (k = 3, seeded, `nstart = 25`) on log-scaled invoice totals only. Clusters are described in `ClusterSummary`; no further interpretation is claimed.
 

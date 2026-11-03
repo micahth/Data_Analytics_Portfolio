@@ -2,7 +2,7 @@
 
 **Question:** Can decision trees, random forests and KNN identify likely authorized push payment (APP) fraud in a transaction dataset?
 
-**Answer, with caveats:** The random forest performed best, with 80.9% test accuracy (see the paper). Accuracy alone is not interpretable without the fraud base rate: the script now prints the base rate and majority-class accuracy, and writes AUC, sensitivity, specificity, precision and F1 for all three models to `outputs/model_summary_test_set.csv`. Run the script and report those numbers alongside accuracy.
+**Answer, with caveats:** The random forest performed best, with 80.9% test accuracy (see the paper). Accuracy alone is not interpretable without the fraud base rate: the script writes the test-set base rate (`base_rate_test`) and AUC, sensitivity, specificity, precision and F1 for all three models to `outputs/model_summary_test_set.csv`. Run the script and report those numbers alongside accuracy.
 
 Limitations:
 - Random train/validation/test split, with features measured at the same time as the label. This does not support the claim of catching scams "before they happen"; that would need a time-based split (the data has a `month` column) and a leakage audit. Neither was done.
